@@ -86,6 +86,11 @@ def actualizar_pesos(me, lr, p, err_n, o_n):
                 j = 0
     return p
 
+def actualizar_theta(t, lr, err_n): 
+    num = len(t)
+    for x in range(0, num): 
+        t[x] =  t[x] + lr * err_n[num - 1 - x]
+    return t
 # ---------------MAIN-----------------------------------------------------
 dataset = pd.read_csv(
     "https://gist.githubusercontent.com/netj/8836201/raw/6f9306ad21398ea43cba4f7d537619d0e07d5ae3/iris.csv")
@@ -138,6 +143,7 @@ for i in range(0, len(mat_entrenamiento)):
         print("--------------HAY ALGO MAL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     
     lista_pesos = actualizar_pesos(mat_entrenamiento[i], learning_rate, lista_pesos, error_nodos, output_nodos)
-    print(lista_pesos)
+    lista_theta = actualizar_theta(lista_theta, learning_rate, error_nodos)
+    print(lista_theta)
     
-    
+      
