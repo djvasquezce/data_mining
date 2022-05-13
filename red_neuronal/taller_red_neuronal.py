@@ -59,11 +59,11 @@ me = mat_entrenamiento
 #lista pesos
 lista_pesos = []
 #lista tetta
-lista_tetta =[]
+lista_theta =[]
 
-lista_pesos, lista_tetta = inicializar(lista_pesos, lista_tetta)
+lista_pesos, lista_theta = inicializar(lista_pesos, lista_theta)
 print(len(lista_pesos))
-print(len(lista_tetta))
+print(len(lista_theta))
 
 #lista intup nodos
 input_nodos = [0,0,0,0,0,0]
@@ -96,10 +96,10 @@ err_n = [-1, -1, -1, -1, -1, -1]
 [20] w7 10
 '''
 print(lista_pesos)
-print(lista_tetta)
+print(lista_theta)
 for i in range(0, len(me)):
     print("\nInteración ", i+1, "\n")
-    input_nodos, output_nodos =calcular_input_output_nodos(mat_entrenamiento, i, lista_pesos, lista_tetta, input_nodos, output_nodos)
+    input_nodos, output_nodos =calcular_input_output_nodos(mat_entrenamiento, i, lista_pesos, lista_theta, input_nodos, output_nodos)
     
     
     print(input_nodos)
