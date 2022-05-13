@@ -38,3 +38,11 @@ input/output
 [4] 9 
 [5] 10
 
+lista errores de los nodos
+[0] 10
+[1] 9
+[2] 8 
+[3] 7 
+[4] 6 
+[5] 5
+

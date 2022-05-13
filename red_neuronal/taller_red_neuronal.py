@@ -34,7 +34,28 @@ def calcular_input_output_nodos(me, fme, p, t, i_n, o_n):
         if x == 5:
             i_n[x] = ((o_n[0]*p[18]) + (o_n[1]*p[19]) + (o_n[2]*p[20]) + t[5])
             o_n[x] = (1/(1+e**(-i_n[x])))
+        
     return i_n, o_n
+
+def calcular_errores(o_n, p, err_n, s1, s2, s3):
+    for y in range(0, 6):
+        if y == 0: #nodo 10
+            err_n[y] = (o_n[5] * (1 - o_n[5]) * (s3 - o_n[5]))
+        if y == 1: #nodo 9
+            err_n[y] = (o_n[4] * (1 - o_n[4]) * (s2 - o_n[4]))
+        if y == 2: #nodo 8
+            err_n[y] = (o_n[3] * (1 - o_n[3]) * (s1 - o_n[3]))
+
+        if y == 3: #nodo 7                            #SUMATORIA DE LOS ERRORES???
+            err_n[y] = (o_n[2] * (1 - o_n[2]) * (err_n[0]*p[20] + err_n[1]*p[17] + err_n[2]*p[14]))
+        if y == 4: #nodo 6                            #SUMATORIA DE LOS ERRORES???
+            err_n[y] = (o_n[1] * (1 - o_n[1]) * (err_n[0]*p[19] + err_n[1]*p[16] + err_n[2]*p[13]))
+        if y == 5: #nodo 5                             #SUMATORIA DE LOS ERRORES???
+            err_n[y] = (o_n[0] * (1 - o_n[0]) * (err_n[0]*p[18] + err_n[1]*p[15] + err_n[2]*p[12]))
+    return err_n
+
+def actualizar_pesos(lista_pesos):
+    None
 
 # ---------------MAIN-----------------------------------------------------
 dataset = pd.read_csv(
@@ -53,7 +74,7 @@ for i in range(0, training_size):
     mat_dataset = np.delete(mat_dataset, aleatorio, axis=0)
 
 mat_prueba = mat_dataset
-me = mat_entrenamiento
+mat_entrenamiento
 #---
 
 #lista pesos
@@ -62,8 +83,7 @@ lista_pesos = []
 lista_theta =[]
 
 lista_pesos, lista_theta = inicializar(lista_pesos, lista_theta)
-print(len(lista_pesos))
-print(len(lista_theta))
+
 
 #lista intup nodos
 input_nodos = [0,0,0,0,0,0]
@@ -71,37 +91,24 @@ input_nodos = [0,0,0,0,0,0]
 output_nodos = [0,0,0,0,0,0]
 
 #error de cada nodo
-err_n = [-1, -1, -1, -1, -1, -1]
-'''pesos:
-[0] w15
-[1] w25
-[2] w35
-[3] w45
-[4] w16
-[5] w26
-[6] w36
-[7] w46
-[8] w17
-[9] w27
-[10] w37
-[11] w47
-[12] w58
-[13] w68
-[14] w78
-[15] w59
-[16] w69
-[17] w79
-[18] w5 10
-[19] w6 10
-[20] w7 10
-'''
-print(lista_pesos)
-print(lista_theta)
-for i in range(0, len(me)):
-    print("\nInteración ", i+1, "\n")
-    input_nodos, output_nodos =calcular_input_output_nodos(mat_entrenamiento, i, lista_pesos, lista_theta, input_nodos, output_nodos)
+error_nodos = [-1, -1, -1, -1, -1, -1]
+
+print(mat_entrenamiento)
+print(mat_prueba)
+for i in range(0, len(mat_entrenamiento)):
+    print("\nIteración ", i+1, "\n")
+
+    input_nodos, output_nodos = calcular_input_output_nodos(mat_entrenamiento, i, lista_pesos, lista_theta, input_nodos, output_nodos)
+    
+    if(mat_entrenamiento[i][4] == "Setosa"):
+        error_nodos = calcular_errores(output_nodos, lista_pesos, error_nodos, 1, 0, 0)
+    elif (mat_entrenamiento[i][4] == "Versicolor"):
+        error_nodos = calcular_errores(output_nodos, lista_pesos, error_nodos, 0, 1, 0)
+    elif (mat_entrenamiento[i][4] == "Virginica"):
+        error_nodos = calcular_errores(output_nodos, lista_pesos, error_nodos, 0, 0, 1)
+    else:
+        print("--------------HAY ALGO MAL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     
     
-    print(input_nodos)
-    print(output_nodos)
+    
     
