@@ -13,17 +13,17 @@ def inicializar(lista1, lista2):
             lista2.append(aleatorio)
     return lista1, lista2
 
-def calcular_input_output_nodos(me, fme, p, t, i_n, o_n):
+def calcular_input_output_nodos(me, p, t, i_n, o_n):
     for x in range(0,6):
         if x == 0:
-            i_n[x] = ((me[fme][0]*p[0]) + (me[fme][1]*p[1]) + (me[fme][2]*p[2]) + (me[fme][3]*p[3]) + t[0])
-            #print(me[fme][0], me[fme][1], me[fme][2],me[fme][3])
+            i_n[x] = ((me[0]*p[0]) + (me[1]*p[1]) + (me[2]*p[2]) + (me[3]*p[3]) + t[0])
+            #print(me[0], me[1], me[2],me[3])
             o_n[x] = (1/(1+e**(-i_n[x])))
         if x == 1:
-            i_n[x] = ((me[fme][0]*p[4]) + (me[fme][1]*p[5]) + (me[fme][2]*p[6]) + (me[fme][3]*p[7]) + t[1])
+            i_n[x] = ((me[0]*p[4]) + (me[1]*p[5]) + (me[2]*p[6]) + (me[3]*p[7]) + t[1])
             o_n[x] = (1/(1+e**(-i_n[x])))
         if x == 2:
-            i_n[x] = ((me[fme][0]*p[8]) + (me[fme][1]*p[9]) + (me[fme][2]*p[10]) + (me[fme][3]*p[11]) + t[2])
+            i_n[x] = ((me[0]*p[8]) + (me[1]*p[9]) + (me[2]*p[10]) + (me[3]*p[11]) + t[2])
             o_n[x] = (1/(1+e**(-i_n[x])))
         if x == 3:
             i_n[x] = ((o_n[0]*p[12]) + (o_n[1]*p[13]) + (o_n[2]*p[14]) + t[3])
@@ -54,8 +54,10 @@ def calcular_errores(o_n, p, err_n, s1, s2, s3):
             err_n[y] = (o_n[0] * (1 - o_n[0]) * (err_n[0]*p[18] + err_n[1]*p[15] + err_n[2]*p[12]))
     return err_n
 
-def actualizar_pesos(lista_pesos):
-    None
+def actualizar_pesos_y_theta(me, p, t):
+    print(me[2])
+
+    return p, t
 
 # ---------------MAIN-----------------------------------------------------
 dataset = pd.read_csv(
@@ -74,7 +76,6 @@ for i in range(0, training_size):
     mat_dataset = np.delete(mat_dataset, aleatorio, axis=0)
 
 mat_prueba = mat_dataset
-mat_entrenamiento
 #---
 
 #lista pesos
@@ -94,11 +95,10 @@ output_nodos = [0,0,0,0,0,0]
 error_nodos = [-1, -1, -1, -1, -1, -1]
 
 print(mat_entrenamiento)
-print(mat_prueba)
 for i in range(0, len(mat_entrenamiento)):
     print("\nIteración ", i+1, "\n")
 
-    input_nodos, output_nodos = calcular_input_output_nodos(mat_entrenamiento, i, lista_pesos, lista_theta, input_nodos, output_nodos)
+    input_nodos, output_nodos = calcular_input_output_nodos(mat_entrenamiento[i], lista_pesos, lista_theta, input_nodos, output_nodos)
     
     if(mat_entrenamiento[i][4] == "Setosa"):
         error_nodos = calcular_errores(output_nodos, lista_pesos, error_nodos, 1, 0, 0)
@@ -109,6 +109,7 @@ for i in range(0, len(mat_entrenamiento)):
     else:
         print("--------------HAY ALGO MAL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     
+    lista_pesos, lista_theta = actualizar_pesos_y_theta(mat_entrenamiento[i], lista_pesos, lista_theta)
     
     
     
