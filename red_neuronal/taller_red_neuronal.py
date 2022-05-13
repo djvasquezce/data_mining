@@ -54,10 +54,37 @@ def calcular_errores(o_n, p, err_n, s1, s2, s3):
             err_n[y] = (o_n[0] * (1 - o_n[0]) * (err_n[0]*p[18] + err_n[1]*p[15] + err_n[2]*p[12]))
     return err_n
 
-def actualizar_pesos_y_theta(me, p, t):
-    print(me[2])
+def actualizar_pesos(me, lr, p, err_n, o_n):
+    i = 0
+    j = 0
+    for x in range(0, len(p)):
+        
+        if(x<=3):
+            p[x] = p[x] + lr * err_n[5] * me[i]
+        elif(x<=7):
+            p[x] = p[x] + lr * err_n[4] * me[i]
+        elif(x<=11):
+            p[x] = p[x] + lr * err_n[3] * me[i]
+        elif(x<=14): 
+            p[x] = p[x] + lr * err_n[2] * o_n[j]
+        elif(x<=17): 
+            p[x] = p[x] + lr * err_n[1] * o_n[j]
+        elif(x<=20): 
+            p[x] = p[x] + lr * err_n[0] * o_n[j]
 
-    return p, t
+        
+        if(x<=11):   
+            if(i<3):
+                i = i+1
+            else:
+                i = 0
+                j = 0
+        else: 
+            if(j<2): 
+                j = j+1
+            else: 
+                j = 0
+    return p
 
 # ---------------MAIN-----------------------------------------------------
 dataset = pd.read_csv(
@@ -67,6 +94,7 @@ dataset = pd.read_csv(
 mat_dataset = np.array(dataset)
 
 training_size = 105  # int(input("Ingrese valor: "))
+learning_rate = 0.9
 
 mat_entrenamiento = np.empty((0, 5))
 
@@ -109,7 +137,7 @@ for i in range(0, len(mat_entrenamiento)):
     else:
         print("--------------HAY ALGO MAL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     
-    lista_pesos, lista_theta = actualizar_pesos_y_theta(mat_entrenamiento[i], lista_pesos, lista_theta)
-    
+    lista_pesos = actualizar_pesos(mat_entrenamiento[i], learning_rate, lista_pesos, error_nodos, output_nodos)
+    print(lista_pesos)
     
     
